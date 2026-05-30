@@ -27,10 +27,10 @@ app.get('/coba', async (req,res) =>{
 
 app.post('/posting', async (req,res) =>{
   const {data} = req.body
-  data.forEach(async item => {
+  for (const item of data){
     const subtotal = item.harga * item.quantity
     await db.any(`insert into coba (menu_id, quantity, subtotal) values (${item.id}, ${item.quantity}, ${subtotal})`)
-  });
+  };
   res.send("sukses")
   console.log("sukses")
 })
