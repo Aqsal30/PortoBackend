@@ -21,8 +21,4 @@ app.use('/base', baseapi)
 app.use('/menu', menuapi)
 app.use('/order', orderapi)
 
-console.log('base:', baseapi)
-console.log('menu:', menuapi)
-console.log('order:', orderapi)
-
 module.exports = app;
