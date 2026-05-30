@@ -67,5 +67,4 @@ app.post('/posted', async (req,res)=>{
 }
 })
 
-app.listen(PORT)
-console.log("connected", PORT)
+module.exports = app;
