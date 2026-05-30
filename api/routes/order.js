@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const db = require('../Connection')
 
-router.post('/posted', async (req,res)=>{
+router.post('/', async (req,res)=>{
   try {
     const {data,nama} = req.body
     let total = 0

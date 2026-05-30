@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const db = require('../Connection')
 
-router.post('/posting', async (req,res) =>{
+router.post('/', async (req,res) =>{
   const {data} = req.body
   for (const item of data){
     const subtotal = item.harga * item.quantity

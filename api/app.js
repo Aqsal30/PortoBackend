@@ -3,7 +3,6 @@ const cors = require('cors')
 const app = express()
 app.use(express.json());
 app.use(cors())
-const PORT = process.env.PORT || 5000;
 const db = require('./Connection')
 const response = require('./response')
 
@@ -14,6 +13,5 @@ const order = require('./routes/order')
 app.use('/base', base)
 app.use('/menu', menu)
 app.use('/order', order)
-
 
 module.exports = app;
