@@ -12,4 +12,4 @@ router.post('/', async (req,res) =>{
   console.log("sukses")
 })
 
-module.exports = router
+module.exports = router;

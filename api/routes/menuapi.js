@@ -7,4 +7,4 @@ router.get('/', async (req,res) => {
     res.json(sql)
 })
 
-module.exports = router
+module.exports = router;

@@ -33,4 +33,5 @@ router.post('/', async (req,res)=>{
     res.status(500).send("gagal")
 }
 })
-module.exports = router
+
+module.exports = router;

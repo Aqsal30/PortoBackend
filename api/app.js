@@ -6,12 +6,16 @@ app.use(cors())
 const db = require('./Connection')
 const response = require('./response')
 
-const base = require('./routes/base')
-const menu = require('./routes/menu')
-const order = require('./routes/order')
+const baseapi = require('./routes/baseapi')
+const menuapi = require('./routes/menuapi')
+const orderapi = require('./routes/orderapi')
 
-app.use('/base', base)
-app.use('/menu', menu)
-app.use('/order', order)
+app.use('/base', baseapi)
+app.use('/menu', menuapi)
+app.use('/order', orderapi)
+
+console.log('base:', baseapi)
+console.log('menu:', menuapi)
+console.log('order:', orderapi)
 
 module.exports = app;
