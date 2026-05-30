@@ -10,6 +10,13 @@ const baseapi = require('./routes/baseapi')
 const menuapi = require('./routes/menuapi')
 const orderapi = require('./routes/orderapi')
 
+app.get('/', (req, res) => {
+  res.status(200).json({
+    data: "ini data",
+    message: "ini pesan"
+  })
+})
+
 app.use('/base', baseapi)
 app.use('/menu', menuapi)
 app.use('/order', orderapi)
