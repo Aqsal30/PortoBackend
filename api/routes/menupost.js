@@ -40,7 +40,7 @@ router.post(
                     error
                 } =
                 await supabase.storage
-                .from("menu-images")
+                .from("gambar_menu")
                 .upload(
                     fileName,
                     file.buffer,
@@ -58,7 +58,7 @@ router.post(
 
                 const { data } =
                 supabase.storage
-                .from("menu-images")
+                .from("gambar_menu")
                 .getPublicUrl(
                     fileName
                 );
