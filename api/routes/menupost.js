@@ -82,7 +82,6 @@ router.post(
                 )
                 VALUES
                 ($1,$2,$3,$4,$5)
-                RETURNING *
                 `,
                 [
                     name,
@@ -95,8 +94,7 @@ router.post(
 
             res.status(201)
             .json({
-                success:true,
-                data:result.rows[0]
+                success:true
             });
 
         }
