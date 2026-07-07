@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const db = require('../Connection')
+const db = require('../../Connection')
 
 router.post('/', async (req,res)=>{
   try {

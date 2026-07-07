@@ -3,8 +3,8 @@ const multer = require("multer");
 
 const router = express.Router();
 
-const pool = require("../Connection");
-const supabase = require("../supabase");
+const pool = require("../../Connection");
+const supabase = require("../../supabase");
 
 
 const upload = multer({
