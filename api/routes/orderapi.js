@@ -5,6 +5,7 @@ const db = require('../../Connection')
 router.post('/', async (req,res)=>{
   try {
     const {data,nama} = req.body
+    console.log(data)
     let total = 0
     const order_item = []
 
@@ -27,8 +28,8 @@ router.post('/', async (req,res)=>{
     for (const items of order_item) {
       await db.none(`insert into public.order_items (menu_id, order_id, quantity, subtotal,option_menu, note) values ($1, $2, $3, $4, $5, $6)`, [items.menu_id, order.order_id, items.qty, items.subtotal, items.option, items.note])
     }
+    console.log("uploaded")
     res.send("berhasil")
-    console.log(data)
 } catch (err) {
     console.error(err);
     res.status(500).json(err);
