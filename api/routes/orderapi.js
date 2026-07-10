@@ -25,7 +25,7 @@ router.post('/', async (req,res)=>{
     const order = await db.one(`insert into public.orders (customer_name, total) values ($1,$2) returning order_id`, [nama,total])
 
     for (const items of order_item) {
-      await db.none(`insert into public.order_items (menu_id, order_id, quantity, subtotal) values ($1, $2, $3, $4)`, [items.id, order.order_id, items.qty, items.subtotal])
+      await db.none(`insert into public.order_items (menu_id, order_id, quantity, subtotal,option_menu, note) values ($1, $2, $3, $4, $5, $6)`, [items.id, order.order_id, items.qty, items.subtotal, items.option, items.note])
     }
     res.send("berhasil")
     console.log(data)
