@@ -17,16 +17,18 @@ router.post('/', async (req,res)=>{
       const sub = hargadb.harga * item.quantity
       total = total + sub
       order_item.push({
-        id:item.menu_id,
+        menu_id:item.menu_id,
         qty:item.quantity,
-        subtotal:sub
+        subtotal:sub,
+        option:item.option,
+        note: item.note
       }) 
     }
 
     const order = await db.one(`insert into public.orders (customer_name, total) values ($1,$2) returning order_id`, [nama,total])
 
     for (const items of order_item) {
-      await db.none(`insert into public.order_items (menu_id, order_id, quantity, subtotal,option_menu, note) values ($1, $2, $3, $4, $5, $6)`, [items.menu_id, order.order_id, items.qty, items.subtotal, items.option, items.note])
+      await db.none(`insert into public.order_items (menu_id, order_id, quantity, subtotal, option_menu, note) values ($1, $2, $3, $4, $5, $6)`, [items.menu_id, order.order_id, items.qty, items.subtotal, items.option, items.note])
     }
     console.log("uploaded")
     res.send("berhasil")
