@@ -12,11 +12,11 @@ router.post('/', async (req,res)=>{
     return res.status(400).send("cart kosong")
     } 
     for (const item of data){
-      const hargadb = await db.one(`select harga from public.menu where menu_id = $1`, [item.id])
+      const hargadb = await db.one(`select harga from public.menu where menu_id = $1`, [item.menu_id])
       const sub = hargadb.harga * item.quantity
       total = total + sub
       order_item.push({
-        id:item.id,
+        id:item.menu_id,
         qty:item.quantity,
         subtotal:sub
       }) 
@@ -25,13 +25,14 @@ router.post('/', async (req,res)=>{
     const order = await db.one(`insert into public.orders (customer_name, total) values ($1,$2) returning order_id`, [nama,total])
 
     for (const items of order_item) {
-      await db.one(`insert into public.order_items (menu_id, order_id, quantity, subtotal,option_menu, note) values ($1, $2, $3, $4, $5, $6)`, [items.id, order.order_id, items.qty, items.subtotal, items.option, items.note])
+      await db.none(`insert into public.order_items (menu_id, order_id, quantity, subtotal,option_menu, note) values ($1, $2, $3, $4, $5, $6)`, [items.menu_id, order.order_id, items.qty, items.subtotal, items.option, items.note])
     }
     res.send("berhasil")
     console.log(data)
-} catch(err) {
-    res.status(500).send("gagal")
-}
+} catch (err) {
+    console.error(err);
+    res.status(500).json(err);
+  }
 })
 
 module.exports = router;
