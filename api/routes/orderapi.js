@@ -31,7 +31,10 @@ router.post('/', async (req,res)=>{
       await db.none(`insert into public.order_items (menu_id, order_id, quantity, subtotal, option_menu, note) values ($1, $2, $3, $4, $5, $6)`, [items.menu_id, order.order_id, items.qty, items.subtotal, items.option, items.note])
     }
     console.log("uploaded")
-    res.send("berhasil")
+    res.status(201).json({
+      message: "Order Created",
+      orderId: order.order_id
+    })
 } catch (err) {
     console.error(err);
     res.status(500).json(err);
