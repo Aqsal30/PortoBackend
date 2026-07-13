@@ -7,7 +7,7 @@ router.get('/getorder', async (req,res) => {
     res.json(sql)
 })
 router.post('/history', async(req,res)=>{
-  const {orderId} = req.body
+  const {iD} = req.body
   const sql = await db.any('SELECT * FROM public.order_items where order_id = ANY($1)', [orderId])
   res.json(sql)
 })
