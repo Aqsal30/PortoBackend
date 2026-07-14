@@ -26,7 +26,7 @@ router.post('/history', async(req,res)=>{
 
 FROM public.order_items
 
-JOIN menu
+JOIN public.menu
 ON public.menu.menu_id = public.order_items.menu_id
 
 WHERE public.order_items.order_id = ANY($1)
