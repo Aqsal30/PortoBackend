@@ -12,7 +12,6 @@ const response = require('./response')
 const baseapi = require('./routes/baseapi')
 const menuapi = require('./routes/menuapi')
 const orderapi = require('./routes/order')
-const menuRoutes = require("./routes/menupost")
 const swaggerOptions = {
   definition: {
     openapi: "3.0.3",
@@ -56,5 +55,4 @@ app.get('/', (req, res) => {
 app.use('/base', baseapi)
 app.use('/menu', menuapi)
 app.use('/order', orderapi)
-app.use('/updatemenu', menuRoutes)
 module.exports = app;
