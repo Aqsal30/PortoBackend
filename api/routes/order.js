@@ -35,6 +35,7 @@ GROUP BY order_items.order_id
 
 ORDER BY order_items.order_id asc,
 `, [OrderIds])
+  console.log(OrderIds)
   res.json(sql)
 })
 router.post('/orderpost', async (req,res)=>{
