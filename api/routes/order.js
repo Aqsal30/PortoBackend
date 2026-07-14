@@ -9,31 +9,31 @@ router.get('/getorder', async (req,res) => {
 router.post('/history', async(req,res)=>{
   const {OrderIds} = req.body
   const sql = await db.any(`SELECT
-    order_items.order_id,
+    public.order_items.order_id,
 
     json_agg(
 
         json_build_object(
-            'nama_menu', menu.nama_menu,
-            'quantity', order_items.quantity,
-            'subtotal', order_items.subtotal,
-            'option', order_items.option_menu,
-            'note', order_items.note
+            'nama_menu', public.menu.nama_menu,
+            'quantity', public.order_items.quantity,
+            'subtotal', public.order_items.subtotal,
+            'option', public.order_items.option_menu,
+            'note', public.order_items.note
 
         )
 
     ) AS items
 
-FROM order_items
+FROM public.order_items
 
 JOIN menu
-ON menu.menu_id = order_items.menu_id
+ON public.menu.menu_id = public.order_items.menu_id
 
-WHERE order_items.order_id = ANY($1)
+WHERE public.order_items.order_id = ANY($1)
 
-GROUP BY order_items.order_id
+GROUP BY public.order_items.order_id
 
-ORDER BY order_items.order_id asc,
+ORDER BY public.order_items.order_id asc,
 `, [OrderIds])
   console.log(OrderIds)
   res.json(sql)
