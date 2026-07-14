@@ -8,7 +8,34 @@ router.get('/getorder', async (req,res) => {
 })
 router.post('/history', async(req,res)=>{
   const {iD} = req.body
-  const sql = await db.any('select menu.nama_menu, order_items.order_id, order_items.quantity, order_items.subtotal, order_items.option_menu, order_items.note from public.menu join public.order_items on menu.menu_id = order_items.menu_id where public.order_items.order_id = ANY($1)', [iD])
+  const sql = await db.any(`SELECT
+    order_items.order_id,
+
+    json_agg(
+
+        json_build_object(
+            'nama_menu', menu.nama_menu,
+            'quantity', order_items.quantity,
+            'subtotal', order_items.subtotal,
+            'option', order_items.option_menu,
+            'note', order_items.note
+
+        )
+
+    ) AS items
+
+FROM order_items
+
+JOIN menu
+ON menu.menu_id = order_items.menu_id
+
+WHERE order_items.order_id = ANY($1)
+
+GROUP BY order_items.order_id
+
+ORDER BY order_items.order_id asc,
+`,
+[iD])
   res.json(sql)
 })
 router.post('/orderpost', async (req,res)=>{
