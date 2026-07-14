@@ -10,7 +10,7 @@ const db = require('../Connection')
 const response = require('./response')
 
 const baseapi = require('./routes/baseapi')
-const menuapi = require('./routes/menuapi')
+const menuapi = require('./routes/menu')
 const orderapi = require('./routes/order')
 const swaggerOptions = {
   definition: {
@@ -26,7 +26,7 @@ const swaggerOptions = {
       },
     ],
   },
-  apis: ["./index.js"],
+  apis: ["./routes/*.js"],
 };
 
 const swaggerSpec = swaggerJSdocs(swaggerOptions);
@@ -55,4 +55,10 @@ app.get('/', (req, res) => {
 app.use('/base', baseapi)
 app.use('/menu', menuapi)
 app.use('/order', orderapi)
+app.use((err, req, res, next) => {
+    console.error(err);
+    res.status(500).json({
+        message: "Internal Server Error"
+    });
+});
 module.exports = app;
