@@ -7,6 +7,9 @@ router.get('/getorder', async (req,res) => {
     res.json(sql)
 })
 router.post('/history', async(req,res)=>{
+  try{
+
+  
   const {OrderIds} = req.body
   const sql = await db.any(`SELECT
     public.order_items.order_id,
@@ -33,10 +36,13 @@ WHERE public.order_items.order_id = ANY($1)
 
 GROUP BY public.order_items.order_id
 
-ORDER BY public.order_items.order_id asc,
+ORDER BY public.order_items.order_id asc
 `, [OrderIds])
   console.log(OrderIds)
   res.json(sql)
+  }catch(err){
+    console.log(err)
+  }
 })
 router.post('/orderpost', async (req,res)=>{
   try {
