@@ -20,7 +20,7 @@ router.post('/history', async(req,res)=>{
             'subtotal', public.order_items.subtotal,
             'option', public.order_items.option_menu,
             'note', public.order_items.note,
-            'status, public.orders.status
+            'status', public.orders.status
 
         )
 
