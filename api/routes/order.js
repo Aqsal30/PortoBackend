@@ -8,8 +8,6 @@ router.get('/getorder', async (req,res) => {
 })
 router.post('/history', async(req,res)=>{
   try{
-
-  
   const {OrderIds} = req.body
   const sql = await db.any(`SELECT
     public.order_items.order_id,
@@ -31,6 +29,9 @@ FROM public.order_items
 
 JOIN public.menu
 ON public.menu.menu_id = public.order_items.menu_id
+
+JOIN public.orders
+ON public.orders.order_id = public.order_items.order_id
 
 WHERE public.order_items.order_id = ANY($1)
 
