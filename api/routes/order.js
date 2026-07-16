@@ -14,7 +14,7 @@ router.post('/history', async(req,res)=>{
     public.orders.total,
     public.orders.status,
     to_char(
-    "Created_at" AT TIME ZONE 'Asia/Jakarta',
+    public.orders."Created_at" AT TIME ZONE 'Asia/Jakarta',
     'DD/MM/YYYY HH24:MI'
 )
 
