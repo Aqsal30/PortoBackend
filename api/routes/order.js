@@ -35,7 +35,7 @@ ON public.menu.menu_id = public.order_items.menu_id
 JOIN public.orders
 ON public.orders.order_id = public.order_items.order_id
 
-WHERE public.order_items.order_id = 35
+WHERE public.order_items.order_id = ANY($1)
 
 GROUP BY public.order_items.order_id,
     public.orders.total,
