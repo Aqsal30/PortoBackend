@@ -10,6 +10,11 @@ router.post('/history', async(req,res)=>{
   try{
   const {OrderIds} = req.body
   const sql = await db.any(`SELECT
+    public.order_items.order_id,
+    public.orders.total,
+    public.orders.status,
+    public.orders."Created_at",
+
     json_agg(
 
         json_build_object(
@@ -20,17 +25,7 @@ router.post('/history', async(req,res)=>{
 
         )
 
-    ) AS detail,
-
-    json_agg(
-
-        json_build_object(
-            'order_id', public.orders.order_id,
-            'total', public.orders.total,
-            'status', public.orders.status,
-            'tanggal', public.orders."Created_at"
-        )
-    ) AS Order
+    ) AS detail
 
 FROM public.order_items
 
@@ -40,9 +35,12 @@ ON public.menu.menu_id = public.order_items.menu_id
 JOIN public.orders
 ON public.orders.order_id = public.order_items.order_id
 
-WHERE public.order_items.order_id = ANY($1)
+WHERE public.order_items.order_id = 35
 
-GROUP BY public.order_items.order_id
+GROUP BY public.order_items.order_id,
+    public.orders.total,
+    public.orders.status,
+    public.orders."Created_at"
 
 ORDER BY public.order_items.order_id asc
 `, [OrderIds])
