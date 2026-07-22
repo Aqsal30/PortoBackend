@@ -57,8 +57,8 @@ router.put(
 
             await db.query(
                 `
-                UPDATE menu
-                SET image_url = $1
+                UPDATE public.menu
+                SET img_url = $1
                 WHERE menu_id = $2
                 `,
                 [imageUrl, menu_id]
