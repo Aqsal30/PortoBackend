@@ -6,117 +6,80 @@ const router = express.Router();
 const db = require("../../Connection");
 const supabase = require("../../supabase");
 
-
-const upload = multer({
-    storage: multer.memoryStorage()
-});
-
-
 router.get('/', async (req,res) => {
     const sql = await db.any('SELECT * FROM public.menu')
     res.json(sql)
 })
 
+const upload = multer({
+    storage: multer.memoryStorage()
+});
 
-router.post(
-    "/postmenu",
+router.put(
+    "/image",
     upload.single("image"),
-    async (req,res)=>{
+    async (req, res) => {
 
-        try{
+        try {
 
-            const {
-                name,
-                price,
-                description,
-                type
-            } = req.body;
-
+            const { menu_id } = req.body;
             const file = req.file;
 
-            let imageUrl = null;
-
-
-            if(file){
-
-                const fileName =
-                `${Date.now()}-${file.originalname}`;
-
-                const {
-                    error
-                } =
-                await supabase.storage
-                .from("gambar_menu")
-                .upload(
-                    fileName,
-                    file.buffer,
-                    {
-                        contentType:
-                        file.mimetype
-                    }
-                );
-
-                if(error){
-
-                    throw error;
-
-                }
-
-                const { data } =
-                supabase.storage
-                .from("gambar_menu")
-                .getPublicUrl(
-                    fileName
-                );
-
-                imageUrl =
-                data.publicUrl;
-
+            if (!menu_id) {
+                return res.status(400).json({
+                    success: false,
+                    message: "menu_id is required"
+                });
             }
 
+            if (!file) {
+                return res.status(400).json({
+                    success: false,
+                    message: "Image is required"
+                });
+            }
 
-            const result =
+            const fileName = `${Date.now()}-${file.originalname}`;
+
+            const { error } = await supabase.storage
+                .from("gambar_menu")
+                .upload(fileName, file.buffer, {
+                    contentType: file.mimetype
+                });
+
+            if (error) throw error;
+
+            const { data } = supabase.storage
+                .from("gambar_menu")
+                .getPublicUrl(fileName);
+
+            const imageUrl = data.publicUrl;
+
             await db.query(
                 `
-                INSERT INTO cobamenu
-                (
-                    name,
-                    price,
-                    description,
-                    type,
-                    image_url
-                )
-                VALUES
-                ($1,$2,$3,$4,$5)
+                UPDATE menu
+                SET image_url = $1
+                WHERE menu_id = $2
                 `,
-                [
-                    name,
-                    price,
-                    description,
-                    type,
-                    imageUrl
-                ]
+                [imageUrl, menu_id]
             );
 
-            res.status(201)
-            .json({
-                success:true
+            res.status(200).json({
+                success: true,
+                image_url: imageUrl
             });
 
-        }
-        catch(error){
+        } catch (error) {
 
-            console.log(error);
+            console.error(error);
 
-            res.status(500)
-            .json({
-                success:false,
-                message:"Create menu failed"
+            res.status(500).json({
+                success: false,
+                message: "Upload failed"
             });
 
         }
 
     }
 );
-
 module.exports = router;
