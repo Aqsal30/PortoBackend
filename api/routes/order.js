@@ -21,6 +21,7 @@ router.post('/history', async(req,res)=>{
 
         json_build_object(
             'nama_menu', public.menu.nama_menu,
+            'harga', public.order_items.subtotal
             'quantity', public.order_items.quantity,
             'option', public.order_items.option_menu,
             'note', public.order_items.note
