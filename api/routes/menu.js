@@ -11,12 +11,12 @@ const upload = multer({
 });
 
 router.get('/', async (req,res) => {
-    const sql = await db.one('SELECT * FROM public.menu')
+    const sql = await db.any('SELECT * FROM public.menu')
     res.json(sql)
 })
 
 router.get('/option', async (req,res) =>{
-    const sql = await db.one('SELECT * FROM public.menu_option')
+    const sql = await db.any('SELECT * FROM public.menu_option')
     res.json(sql)
 })
 
