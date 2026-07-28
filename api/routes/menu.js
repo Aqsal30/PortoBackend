@@ -11,7 +11,30 @@ const upload = multer({
 });
 
 router.get('/', async (req,res) => {
-    const sql = await db.any('SELECT * FROM public.menu join public.menu_option on public.menu.menu_id = public.menu_option.menu_id')
+    const sql = await db.any(`SELECT public.menu.*,
+  coalesce(
+
+    json_agg(
+
+        json_build_object(
+            'option_id', public.menu_option.option_id,
+            'label', public.menu_option.label,
+            'value', public.menu_option.value
+
+        )
+    ) filter (where public.menu_option.option_id is not null), '[]' ::json
+
+    ) AS option
+
+FROM public.menu
+
+LEFT JOIN public.menu_option
+ON public.menu.menu_id = public.menu_option.menu_id
+
+GROUP BY public.menu.menu_id
+
+ORDER BY public.menu.menu_id asc`)
+
     res.json(sql)
 })
 
