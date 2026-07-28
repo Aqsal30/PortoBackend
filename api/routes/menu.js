@@ -6,14 +6,18 @@ const router = express.Router();
 const db = require("../../Connection");
 const supabase = require("../../supabase");
 
-router.get('/', async (req,res) => {
-    const sql = await db.any('SELECT * FROM public.menu')
-    res.json(sql)
-})
-
 const upload = multer({
     storage: multer.memoryStorage()
 });
+
+router.get('/', async (req,res) => {
+    const sql = await db.one('SELECT * FROM public.menu')
+    res.json(sql)
+})
+
+router.get('/option', async (req,res) =>{
+    const sql = await db.one('SELECT * FROM public.menu_option')
+})
 
 router.put(
     "/image",
