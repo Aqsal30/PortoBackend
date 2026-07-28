@@ -11,7 +11,7 @@ const upload = multer({
 });
 
 router.get('/', async (req,res) => {
-    const sql = await db.any('SELECT * FROM public.menu')
+    const sql = await db.any('SELECT * FROM public.menu join public.menu_option on public.menu.menu_id = public.menu_option.menu_id')
     res.json(sql)
 })
 
