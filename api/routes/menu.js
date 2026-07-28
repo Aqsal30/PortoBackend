@@ -17,6 +17,7 @@ router.get('/', async (req,res) => {
 
 router.get('/option', async (req,res) =>{
     const sql = await db.one('SELECT * FROM public.menu_option')
+    res.json(sql)
 })
 
 router.put(
