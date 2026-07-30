@@ -47,7 +47,6 @@ GROUP BY public.order_items.order_id,
 
 ORDER BY public.order_items.order_id asc
 `, [OrderIds])
-  console.log(OrderIds)
   res.json(sql)
   }catch(err){
     console.log(err)
@@ -56,7 +55,6 @@ ORDER BY public.order_items.order_id asc
 router.post('/orderpost', async (req,res)=>{
   try {
     const {data,nama} = req.body
-    console.log(data)
     let total = 0
     const order_item = []
 
