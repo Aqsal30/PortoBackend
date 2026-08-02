@@ -33,7 +33,7 @@ ON public.menu.menu_id = public.menu_option.menu_id
 
 GROUP BY public.menu.menu_id
 
-ORDER BY public.menu.menu_id asc`)
+ORDER BY public.menu.menu_id`)
 
     res.json(sql)
 })
