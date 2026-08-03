@@ -2,7 +2,11 @@ const express = require('express')
 const router = express.Router()
 const db = require('../../Connection')
 
-router.get('/getorder', async (req,res) => {
+router.get('/orders', async (req,res) => {
+    const sql = await db.any('SELECT * FROM public.orders')
+    res.json(sql)
+})
+router.get('/orderitems', async (req,res) => {
     const sql = await db.any('SELECT * FROM public.order_items')
     res.json(sql)
 })
